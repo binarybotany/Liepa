@@ -12,6 +12,10 @@ constexpr uint_fast32_t FULLSCREEN      = 0x04;
 constexpr uint_fast32_t REFRESH_RATE    = 0x05;
 constexpr uint_fast32_t PUBLISHER       = 0x06;
 
+class GlobalsKeyNotFound : public std::exception 
+{
+};
+
 template <typename T>
 class Globals
 {
@@ -37,8 +41,7 @@ public:
         if (iterator != _globals.end())
             return static_cast<T>(iterator->second);
 
-        std::cerr << "Unable to find key: " << key << std::endl;
-        exit(EXIT_FAILURE);
+        throw GlobalsKeyNotFound();
     }
 
 private:

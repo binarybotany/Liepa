@@ -37,6 +37,7 @@ Window::Window(int width, int height, bool fullscreen)
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, KeyCallback);
     glfwSetWindowSizeCallback(window, ResizeCallback);
+    glfwSetMouseButtonCallback(window, MouseButtonCallback);
     glfwSwapInterval(1);
 
     Globals<Window*>::Instance().Set(PUBLISHER, this);
@@ -67,12 +68,6 @@ void Window::KeyCallback(
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
-
-    /*
-    if (key == GLFW_KEY_A && action == GLFW_PRESS)
-        Globals<Window*>::Instance().Get(PUBLISHER)->
-            SendMessage(Message::KeyPress);
-    */
 }
 
 void Window::ResizeCallback(GLFWwindow *window, int width, int height)
@@ -87,6 +82,20 @@ void Window::ResizeCallback(GLFWwindow *window, int width, int height)
     glLoadIdentity();
 }
 
+void Window::MouseButtonCallback(
+    GLFWwindow *window, 
+    int button, 
+    int action, 
+    int mods)
+{
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) 
+    {
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+        Globals<Window*>::Instance().Get(PUBLISHER)->Notify();
+    }
+}
+
 void Window::MessageLoop()
 {
     GLFWwindow *window = Globals<GLFWwindow *>::Instance().Get(WINDOW);
@@ -99,6 +108,8 @@ void Window::MessageLoop()
 
     _rectangles.push_back(rectangle1);
     _rectangles.push_back(rectangle2);
+
+    this->Subscribe(rectangle1);
 
     while (!glfwWindowShouldClose(window))
     {

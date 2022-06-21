@@ -25,7 +25,8 @@ public:
 TEST_F(EventHandlerTest, Works)
 {
     MockSender *sender = new MockSender();
-    auto handler = EventHandler<const MockEventArgs&>();
+    EventHandler<const MockEventArgs&> handler = 
+        EventHandler<const MockEventArgs&>();
     handler.Bind<&MockSender::MockMemberFunction>(sender);
 
     MockEventArgs eventArgs;

@@ -10,8 +10,9 @@
 
 #include "Globals.hpp"
 #include "Rectangle.hpp"
+#include "Publisher.hpp"
 
-class Window
+class Window : public Publisher
 {
 private:
     static void ErrorCallback(int error, const char *description);
@@ -25,6 +26,13 @@ private:
     );
 
     static void ResizeCallback(GLFWwindow *window, int width, int height);
+    
+    static void MouseButtonCallback(
+        GLFWwindow *window, 
+        int button, 
+        int action, 
+        int mods
+    );
 
     std::list<Rectangle*> _rectangles;
 

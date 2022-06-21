@@ -68,18 +68,20 @@ void Window::KeyCallback(
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
 
+    /*
     if (key == GLFW_KEY_A && action == GLFW_PRESS)
         Globals<Window*>::Instance().Get(PUBLISHER)->
-            RaiseEvent(Event::KeyPress);
+            SendMessage(Message::KeyPress);
+    */
 }
 
 void Window::ResizeCallback(GLFWwindow *window, int width, int height)
 {
-    if (height == 0) height = 1;
+    glViewport(0, 0, width, height);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0, (double)width, (double)height, 0.0, -10.0, 10);
+    glOrtho(0.0, (GLdouble) width, (GLdouble) height, 0.0, -1.0, 1.0);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

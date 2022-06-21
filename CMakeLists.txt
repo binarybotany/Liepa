@@ -48,8 +48,8 @@ endfunction()
 add(TARGET Liepa 
     FLAGS -Wall
     LIBS glfw GL
-    SOURCES Source/Window.cpp   
+    SOURCES Source/Window.cpp 
     )
 
 add(TEST TARGET Globals_test LIBS gtest_main)
-add(TEST TARGET Delegate_test LIBS gtest_main)
+add(TEST TARGET EventHandler_test LIBS gtest_main)

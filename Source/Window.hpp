@@ -9,11 +9,9 @@
 #include <list>
 
 #include "Globals.hpp"
-#include "Event.hpp"
-#include "Publisher.hpp"
 #include "Rectangle.hpp"
 
-class Window : public Publisher
+class Window
 {
 private:
     static void ErrorCallback(int error, const char *description);

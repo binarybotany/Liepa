@@ -13,7 +13,7 @@ public:
     void Render()
     {
         glColor4fv(_color);
-        glRectf(_x, _y, _w, _h);
+        glRectf(_x, _y, _x + _w, _y + _h);
     }
 
 private:

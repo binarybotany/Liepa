@@ -95,14 +95,14 @@ void Window::MessageLoop()
     GLfloat c2[4] = {0.2f, 0.2f, 0.7f, 1.0f};
 
     Rectangle* rectangle1 = new Rectangle(10.0f, 10.0f, 300.0f, 150.0f, c1);
-    Rectangle* rectangle2 = new Rectangle(10.0f, 320.0f, 300.0f, 150.0f, c2);
+    Rectangle* rectangle2 = new Rectangle(10.0f, 170.0f, 300.0f, 150.0f, c2);
 
     _rectangles.push_back(rectangle1);
     _rectangles.push_back(rectangle2);
 
     while (!glfwWindowShouldClose(window))
     {
-        glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         std::list<Rectangle*>::iterator iterator = _rectangles.begin();

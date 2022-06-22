@@ -7,6 +7,8 @@ class Event
 {
 public:
     EventType type;
+    double xpos;
+    double ypos;
 };
 
 #endif

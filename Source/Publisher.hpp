@@ -30,15 +30,13 @@ public:
         /* Implement */
     }
 
-    void Notify(EventType eventType)
+    void Notify(Event event)
     {
         for (
             std::list<Subscription>::iterator iter = _subscriptions.begin(); 
             iter != _subscriptions.end(); 
             iter++) 
         {
-            Event event;
-            event.type = eventType;
             iter->_handler(event);
         }
     }

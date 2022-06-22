@@ -90,11 +90,11 @@ void Window::MouseButtonCallback(
 {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) 
     {
-        double xpos, ypos;
-        glfwGetCursorPos(window, &xpos, &ypos);
-        Globals<Window*>::Instance().Get(PUBLISHER)->Notify(
-            EventType::MouseButtonClicked
-        );
+        Event event;
+        event.type = EventType::MouseButtonClicked;
+        glfwGetCursorPos(window, &event.xpos, &event.ypos);
+
+        Globals<Window*>::Instance().Get(PUBLISHER)->Notify(event);
     }
 }
 
@@ -102,11 +102,11 @@ void Window::MessageLoop()
 {
     GLFWwindow *window = Globals<GLFWwindow *>::Instance().Get(WINDOW);
 
-    GLfloat c1[4] = {0.2f, 0.2f, 0.4f, 1.0f};
-    GLfloat c2[4] = {0.2f, 0.2f, 0.7f, 1.0f};
+    GLfloat c1[4] = {0.7f, 0.1f, 0.1f, 1.0f};
+    GLfloat c2[4] = {0.1f, 0.1f, 0.7f, 1.0f};
 
-    Rectangle* rectangle1 = new Rectangle(10.0f, 10.0f, 300.0f, 150.0f, c1);
-    Rectangle* rectangle2 = new Rectangle(10.0f, 170.0f, 300.0f, 150.0f, c2);
+    Rectangle* rectangle1 = new Rectangle("Red rectangle", 10.0f, 10.0f, 300.0f, 150.0f, c1);
+    Rectangle* rectangle2 = new Rectangle("Blue rectangle", 10.0f, 170.0f, 300.0f, 150.0f, c2);
 
     _rectangles.push_back(rectangle1);
     _rectangles.push_back(rectangle2);
@@ -115,6 +115,12 @@ void Window::MessageLoop()
         rectangle1, 
         EventType::MouseButtonClicked, 
         rectangle1->RectangleClicked
+    );
+
+    this->Subscribe(
+        rectangle2, 
+        EventType::MouseButtonClicked, 
+        rectangle2->RectangleClicked
     );
 
     while (!glfwWindowShouldClose(window))

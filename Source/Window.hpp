@@ -8,9 +8,10 @@
 #include <memory>
 #include <list>
 
+#include "Event.hpp"
 #include "Globals.hpp"
-#include "Rectangle.hpp"
 #include "Publisher.hpp"
+#include "Rectangle.hpp"
 
 class Window : public Publisher
 {

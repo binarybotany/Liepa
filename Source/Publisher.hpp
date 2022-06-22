@@ -2,42 +2,67 @@
 #define Publisher_hpp
 
 #include <list>
-#include "Subscriber.hpp"
-
-enum class Event
-{
-    Default = 0,
-};
+#include "Event.hpp"
+#include "EventType.hpp"
+#include "EventHandler.hpp"
 
 class Publisher 
 {
 public:
     ~Publisher() { }
 
-    void Subscribe(Subscriber* subscriber) 
+    void Subscribe(
+        Publisher* subscriber,
+        EventType eventType, 
+        EventHandler<const Event&> handler) 
     {
-        _subscribers.push_back(subscriber);
+        Subscription subscription (
+            eventType, 
+            subscriber, 
+            this, 
+            handler);
+
+        _subscriptions.push_back(subscription);
     }
 
-    void Unsubscribe(Subscriber* subscriber)
+    void Unsubscribe(EventType eventType, Publisher* subscriber)
     {
-        _subscribers.remove(subscriber);
+        /* Implement */
     }
 
-    void Notify()
+    void Notify(EventType eventType)
     {
         for (
-            std::list<Subscriber*>::iterator iter = _subscribers.begin(); 
-            iter != _subscribers.end(); 
+            std::list<Subscription>::iterator iter = _subscriptions.begin(); 
+            iter != _subscriptions.end(); 
             iter++) 
         {
-            EventArgs e;
-            (*iter)->handler(e);
+            Event event;
+            event.type = eventType;
+            iter->_handler(event);
         }
     }
 
 private:
-    std::list<Subscriber*> _subscribers;
+    struct Subscription
+    {
+        EventType _eventType;
+        Publisher* _subscriber;
+        Publisher* _publisher;
+        EventHandler<const Event&> _handler;
+
+        Subscription(
+            EventType eventType, 
+            Publisher* subscriber, 
+            Publisher* publisher, 
+            EventHandler<const Event&> handler
+        ) : _eventType(eventType), 
+            _subscriber(publisher),
+            _publisher(subscriber),
+            _handler(handler) { }
+    };
+
+    std::list<Subscription> _subscriptions;
 };
 
 #endif

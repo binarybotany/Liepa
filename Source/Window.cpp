@@ -92,7 +92,9 @@ void Window::MouseButtonCallback(
     {
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
-        Globals<Window*>::Instance().Get(PUBLISHER)->Notify();
+        Globals<Window*>::Instance().Get(PUBLISHER)->Notify(
+            EventType::MouseButtonClicked
+        );
     }
 }
 
@@ -109,7 +111,11 @@ void Window::MessageLoop()
     _rectangles.push_back(rectangle1);
     _rectangles.push_back(rectangle2);
 
-    this->Subscribe(rectangle1);
+    this->Subscribe(
+        rectangle1, 
+        EventType::MouseButtonClicked, 
+        rectangle1->RectangleClicked
+    );
 
     while (!glfwWindowShouldClose(window))
     {
